@@ -17,6 +17,7 @@ const routesUserApi = require('./routes/routesUsers.js');
 const routesClientApi = require('./routes/routesClients');
 const routesCampaignsApi = require('./routes/routesCampaign');
 const routesListApi = require('./routes/routesLists');
+const routesBlackApi= require('./routes/routesBlack');
 var cors = require('cors')
 var fileupload = require("express-fileupload");
 
@@ -31,7 +32,7 @@ routesUserApi(app);
 routesClientApi(app);
 routesCampaignsApi(app);
 routesListApi(app);
-
+routesBlackApi(app);
 app.listen(config.port, function() {
     console.log(`Listening http://localhost:${config.port}`);
 });

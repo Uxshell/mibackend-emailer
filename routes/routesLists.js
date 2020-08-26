@@ -6,7 +6,7 @@ const { config } = require('../config');
 
 const SEED_AUTENTICACION = config.seedAuth;
 
-function routesUserApi(app) {
+function routesListApi(app) {
     const router = express.Router();
     app.use('/lists', router);
 
@@ -189,4 +189,4 @@ function routesUserApi(app) {
 }
 
 
-module.exports = routesUserApi;
+module.exports = routesListApi;
