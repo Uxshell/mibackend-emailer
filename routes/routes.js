@@ -45,6 +45,7 @@ function routesApi(app) {
     router.post('/sendMassiveEmails', async function(req, res, next) {
         //var clientArray = req.body.data.arr;
         var clientArray = req.body.clients;
+        var htmls = req.body.html;
         var html = req.body.html;
         var subject = req.body.subject;
         var response = await executeMassiveLambda(clientArray, html, subject);

@@ -74,7 +74,27 @@ function routesListApi(app) {
         }
     });
 
-    
+    router.delete('/:id',async function(req, res, next) {
+        const { id } = req.params;
+        try {
+     const delet = await listService.borrarLista({id});
+     res.status(200).json({
+        //users: delet,
+        data: delet,
+        success: true,
+        message: 'lista eliminada'
+    });
+    } catch (err) {
+        next(err);
+        res.status(500).json({
+            success: false,
+            message: 'error '
+        });
+        }
+      }
+    );
+
+
     router.get('/getUsers', async function(req, res, next) {
         try {
             const users = await userService.getUsers();
@@ -130,61 +150,10 @@ function routesListApi(app) {
     });
 
 
-    router.post('/getUserByEmail', protectRoutes, async function(req, res, next) {
-        const { body: user } = req;
-        try {
-            const userDB = await userService.getUserByEmail({ user });
-
-            res.status(201).json({
-                response: userDB
-            });
-        } catch (err) {
-            next(err);
-            res.status(500).json({
-                success: false,
-                message: 'error to create user'
-            });
-        }
-    });
+    
 
 
-    router.post('/login', async function(req, res, next) {
-        const { body: user } = req;
-        try {
-            const success = await userService.login({ user });
-
-            res.status(201).json({
-                response: success,
-                message: 'login success'
-            });
-        } catch (err) {
-            next(err);
-            res.status(500).json({
-                success: false,
-                message: 'error to list users'
-            });
-        }
-    });
-
-    //validador de token en HEADER
-    protectRoutes.use((req, res, next) => {
-        const token = req.headers['access-token'];
-        //console.log("token: " + token);
-        if (token) {
-            jwt.verify(token, SEED_AUTENTICACION, (err, decoded) => {
-                if (err) {
-                    return res.json({ mensaje: 'Token inválida' });
-                } else {
-                    req.decoded = decoded;
-                    next();
-                }
-            });
-        } else {
-            res.send({
-                mensaje: 'Token no proporcionado.'
-            });
-        }
-    });
+   
 
 }
 

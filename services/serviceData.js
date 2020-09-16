@@ -216,8 +216,10 @@ class DataService {
     async buildTemplateAndEmail(clientArray, html, subject) {
         var o = {} // empty Object
         var key = 'arr';
+        //var htmls='htmls';
         var objResult = new Object();
         o[key] = clientArray;
+        //o[htmls]= html;
 
         objResult.data = o;
         objResult.html = html;
@@ -240,6 +242,7 @@ var items = [
     "_id",
     "tag",
     "nombre",
+    "codigo",
     "nss",
     "curp",
     "fecha",
