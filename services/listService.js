@@ -1,4 +1,5 @@
 const MongoLib = require('../lib/mongo');
+const Lista = require('../models/listaModel');
 var bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { config } = require('../config');
@@ -51,20 +52,69 @@ class ListaService {
         }
     }
 
-    
-    async createList({ lista }) {
-        //var salt = bcrypt.genSaltSync(10);
-        //var hash = bcrypt.hashSync(user.password, salt);
-        //user.password = hash;
-        const newList = await this.mongoDB.create(this.collection, lista);
-        return newList;
-    }
+    async getUserByEmail({ user }) {
+        var query = { email: user.email };
+        var userDB = await this.mongoDB.getOne(this.collection, query);
+        if (userDB === null) {
+            console.log("//user don't found");
+            return {
+                success: false,
+                err: {
+                    message: "No Existe el usuario"
+                }
+            }
+        } else {
+            var userResponse = {
+                userId: userDB._id,
+                name: userDB.name,
+                email: user.email,
+                rol: userDB.rol
+            }
 
-    async updateList({ listaId, lista } = {}) {
-        
-        const updateList = await this.mongoDB.update(this.collection, listaId, lista);
-        return updateList;
+            return {
+                success: true,
+                user: userResponse,
+            }
+
+        }
     }
+     async borrarLista({id}) {
+
+        //const id  = req.params.id;
+    
+        try {
+            
+            const lista = await Lista.findById( id );
+            
+            if ( !lista ) {
+                return res.status(404).json({
+                    ok: true,
+                    msg: 'Lista no encontrado por id',
+                });
+            }
+    
+            await Lista.findByIdAndDelete( id);
+    
+    
+            return {
+                ok: true,
+                msg: 'Lista eliminada'
+            }
+    
+        } catch (error) {
+    
+            console.log(error);
+    
+           return{
+                ok: false,
+                msg: 'Hable con el administrador'
+            }
+        }
+    }
+    
+
+
+    
 
     
 
