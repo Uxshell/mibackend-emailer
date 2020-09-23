@@ -24,13 +24,20 @@ var fileupload = require("express-fileupload");
 
 //body parser
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 app.use(fileupload());
 dbConnection();
 app.use(express.static('public'));
 app.use('/api/listas', require('./routes/listas'));
 app.use('/api/blacks', require('./routes/blacks'));
 app.use( '/api/login', require('./routes/auth') );
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+});
 
 routesApi(app);
 routesUserApi(app);
@@ -40,18 +47,7 @@ routesCampaignsApi(app);
 //routesBlackApi(app);
 app.listen(config.port, function() {
     console.log(`Listening http://localhost:${config.port}`);
-    exports.handler = async (event) => {
-        const response = {
-            statusCode: 200,
-            headers: {
-                "Access-Control-Allow-Headers" : "Content-Type",
-                "Access-Control-Allow-Origin": "https://www.example.com",
-                "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
-            },
-            body: JSON.stringify('Hello from Lambda!'),
-        };
-        return response;
-    }; 
+    
 });
 
 

@@ -239,7 +239,6 @@ var executeLambdaOneByOne = async function(cliente, htmlBody, subject){
 //para 
     var getAllStatistics = async function(request) {
 
-
         return new Promise((resolve, reject) => {
             Request.post({
                 "headers": { "content-type": "application/json" },
