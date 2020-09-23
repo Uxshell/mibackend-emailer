@@ -7,6 +7,14 @@ const AWS_LAMBDA_MASSIVE_EMAIL = config.lambdaMassiveEmail;
 const AWS_LAMBDA_STADISTICS = config.lambdaStadistics;
 const AWS_LAMBDA_ALL_STATISTICS = config.lambdaAllStatistics;
 const dataService = new DataService();
+"use strict";
+
+var fs = require("fs");
+var mailComposer = require("nodemailer/lib/mail-composer");
+
+const AWS = require("aws-sdk");
+var ses = new AWS.SES({ apiVersion: "2010-12-01" });
+
 
 function routesApi(app) {
     const router = express.Router();
@@ -41,13 +49,15 @@ function routesApi(app) {
     });
 
 
-
     router.post('/sendMassiveEmails', async function(req, res, next) {
         //var clientArray = req.body.data.arr;
         var clientArray = req.body.clients;
         var htmls = req.body.html;
         var html = req.body.html;
         var subject = req.body.subject;
+        // para el envio de correos masivos con mas de 1 tag
+       // var response = await executeLambdaOneByOne(clientArray, html, subject);
+        
         var response = await executeMassiveLambda(clientArray, html, subject);
         res.status(200).json({
             statusCode: response,
@@ -121,6 +131,62 @@ function routesApi(app) {
             //*/
     }
 
+    
+var executeLambdaOneByOne = async function(cliente, htmlBody, subject){
+        var error = {}
+        var response = {}
+        //htmlBody = processTag(htmlBody, cliente.name)
+        htmlBody = htmlBody;
+        subject= subject;
+        //subject = processTag(subject, cliente.name)
+        return new Promise(resolve => {
+    
+            // encrypting pdf email
+    
+            let sendRawEmailPromise;
+            const mail = new mailComposer({
+                //from: "Afore XXI Banorte <experienciadelcliente@xxibanorte.com>",
+                from: "Afore XXI Banorte <servicio.afore@xxi-banorte.com>",
+                to: cliente.email,
+                headers: {
+                    "X-SES-CONFIGURATION-SET": "EmailerSET",
+                    "X-SES-MESSAGE-TAGS": "emailerMassiveMetrics=Custom"
+                },
+                subject: subject,
+                html: htmlBody
+            });
+    
+            mail.compile().build(async(err, message) => {
+                if (err) {
+                    error.code = "compiling_mail"
+                    error.message = "Error during email compilation (mailComposer)"
+                    response.status = 400
+                    response.body = error
+                    return resolve(response)
+                }
+                try {
+                    sendRawEmailPromise = await ses.sendRawEmail({ RawMessage: { Data: message } }).promise();
+                    response.status = 200
+                    response.body = sendRawEmailPromise;
+                    return resolve(response);
+    
+    
+                } catch (err) {
+                    console.log("error of sendRawEmail");
+                    error.code = err.code || "invalid_email"
+                    error.message = err.message || "Error sending email"
+                    response.status = 400
+                    response.body = error
+                    console.log(err)
+                    return resolve(response)
+                }
+            });
+    
+    
+        }); // end promise
+    }
+
+
     var executeMassiveLambda = async function(clientArray, html, subject) {
         var jsonObject = await dataService.buildTemplateAndEmail(clientArray, html, subject);
 
@@ -146,7 +212,7 @@ function routesApi(app) {
     var getStadistics = async function(clientArray, html, subject) {
         //var jsonObject = await dataService.buildTemplateAndEmail(clientArray, html, subject);
 
-        //console.log("executeMassiveLambda...:" + JSON.stringify(jsonObject));
+        console.log("executeMassiveLambda...:" + JSON.stringify(jsonObject));
         return new Promise((resolve, reject) => {
             Request.post({
                 "headers": { "content-type": "application/json" },
@@ -170,8 +236,10 @@ function routesApi(app) {
             //*/
         });
     }
-
+//para 
     var getAllStatistics = async function(request) {
+
+
         return new Promise((resolve, reject) => {
             Request.post({
                 "headers": { "content-type": "application/json" },

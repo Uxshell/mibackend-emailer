@@ -187,6 +187,10 @@ function routesUserApi(app) {
         }
     });
 
+
+    router.post('/login/google', async function(req, res, next) {
+
+    });
     //validador de token en HEADER
     protectRoutes.use((req, res, next) => {
         const token = req.headers['access-token'];
