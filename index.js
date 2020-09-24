@@ -25,19 +25,12 @@ var fileupload = require("express-fileupload");
 //body parser
 app.use(express.json());
 app.use(cors());
-var whiteList =['http://emailer-frontend-prod.s3-website-us-east-1.amazonaws.com']
-var corsOptions = {
-    origin: function (origin, callback) {
-      if (whiteList.indexOf(origin) !== -1) {
-        callback(null, true)
-      } else {
-        callback(new Error('Not allowed by CORS'))
-      }
-    }
-  }
-app.get('/', cors(corsOptions), (req, res) =>{
-    res.json({mensaje: 'ok'});
-});
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
+  
 
 app.use(fileupload());
 dbConnection();
