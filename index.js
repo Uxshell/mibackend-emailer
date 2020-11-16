@@ -11,7 +11,8 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 //----------------------------------------------
-
+var  cron  = require ( './node_modules/node-cron' ) ;
+var  schedule = require ('./node_modules/node-schedule');
 const { config } = require('./config/index');
 const routesApi = require('./routes/routes.js');
 const routesUserApi = require('./routes/routesUsers.js');
@@ -19,32 +20,21 @@ const routesClientApi = require('./routes/routesClients');
 const routesCampaignsApi = require('./routes/routesCampaign');
 //const routesListApi = require('./routes/routesLists');
 const routesBlackApi= require('./routes/routesBlack');
-var cors = require('cors')
+const cors = require('cors')
 var fileupload = require("express-fileupload");
+var demo = '2020, 10, 14, 01, 04, 0';
+var date = new Date(2020, 10, 14, 01, 06, 0);
 
 //body parser
 app.use(express.json());
 app.use(cors());
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
-  
 
 app.use(fileupload());
+
 dbConnection();
 app.use(express.static('public'));
 app.use('/api/listas', require('./routes/listas'));
 app.use('/api/blacks', require('./routes/blacks'));
-app.use( '/api/login', require('./routes/auth') );
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-    next();
-});
 
 routesApi(app);
 routesUserApi(app);
@@ -52,10 +42,21 @@ routesClientApi(app);
 routesCampaignsApi(app);
 //routesListApi(app);
 //routesBlackApi(app);
+
+ 
+
+
+
 app.listen(config.port, function() {
     console.log(`Listening http://localhost:${config.port}`);
-    
+       schedule.scheduleJob(date, function(){
+        const now = new Date();
+        console.log('Hola schedule ${now.toLocaleString()}');
+     
+      });
 });
+
+
 
 
 module.exports = app;

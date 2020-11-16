@@ -1,5 +1,6 @@
 const express = require('express');
 const DataService = require('../services/serviceData');
+const EmailService = require('../services/sendEmailTags');
 var Request = require("request");
 const { config } = require('../config');
 const AWS_LAMBDA_EMAIL = config.lambdaEmail;
@@ -11,10 +12,11 @@ const dataService = new DataService();
 
 var fs = require("fs");
 var mailComposer = require("nodemailer/lib/mail-composer");
-
+var  schedule = require ('../node_modules/node-schedule');
+//./node_modules/node-schedule
 const AWS = require("aws-sdk");
 var ses = new AWS.SES({ apiVersion: "2010-12-01" });
-
+var  cron  = require ( '../node_modules/node-cron' ) ;
 
 function routesApi(app) {
     const router = express.Router();
@@ -26,6 +28,25 @@ function routesApi(app) {
         res.status(200).json({
             response: response
         });
+    });
+    
+    router.post('/sendEmailsTags', async function(req, res, next) {
+        try {
+            const emailS = await emailS.sendMassiveEmail(req);
+            //BS.getBlacks({ tags });
+
+            res.status(200).json({
+               
+                success: true,
+                message: 'Success'
+            });
+        } catch (err) {
+            next(err);
+            res.status(500).json({
+                success: false,
+                message: 'ERROR to sendEmailsTags'
+            });
+        }
     });
 
     router.post('/stadistics', async function(req, res, next) {
@@ -47,23 +68,50 @@ function routesApi(app) {
             message: 'statistics'
         });
     });
+  router.post('/sendMassiveEmailsWithSchedule', async function(req, res, next ){
+    var clientArray = req.body.clients;
+    var html = req.body.html;
+    var subject = req.body.subject;
+    var tags = req.body.tags;
+    var date = req.body.fecha;
+    var bandera = req.body.scheduleDef;
+    
+    schedule.scheduleJob(date, async function(){
+        try{
+            console.log("Ejecutando executeMassiveLambda desde schedule");
+            var response = await executeMassiveLambda(clientArray, tags, html, subject);
+            //console.log(response);
+            res.status(200).json({
+                response: response,
+                message: 'massive'
+            });
+        }catch (err){
+            console.log(err);
+        }
 
-
+        
+       
+    });
+  
+});
+   
     router.post('/sendMassiveEmails', async function(req, res, next) {
         //var clientArray = req.body.data.arr;
         var clientArray = req.body.clients;
         var htmls = req.body.html;
         var html = req.body.html;
         var subject = req.body.subject;
-        // para el envio de correos masivos con mas de 1 tag
-       // var response = await executeLambdaOneByOne(clientArray, html, subject);
+        var tags = req.body.tags;
+        //var date = req.body.fecha;
+        var bandera = req.body.scheduleDef;
         
-        var response = await executeMassiveLambda(clientArray, html, subject);
+        var response = await executeMassiveLambda(clientArray, tags, html, subject);
         res.status(200).json({
             statusCode: response,
             message: 'email ok'
-        });
+        });        
     });
+
 
     /*
     router.post('/uploadDataFile', async function(req, res, next) {
@@ -88,7 +136,7 @@ function routesApi(app) {
     var executeLambda = async function() {
         //var jsonObject = await dataService.buildArrayEmail();
         var jsonObject = await dataService.buildArrayAndSendEmail();
-        console.log("jsonObject: " + JSON.stringify(jsonObject))
+        //console.log("jsonObject: " + JSON.stringify(jsonObject))
         console.log("wait end...")
         return jsonObject;
         /*
@@ -130,8 +178,7 @@ function routesApi(app) {
             });
             //*/
     }
-
-    
+ 
 var executeLambdaOneByOne = async function(cliente, htmlBody, subject){
         var error = {}
         var response = {}
@@ -185,12 +232,23 @@ var executeLambdaOneByOne = async function(cliente, htmlBody, subject){
     
         }); // end promise
     }
+/*var executeSchedule  = async function(clientArray, tags, html, subject) {
+        schedule.scheduleJob(date, function(){
+            console.log(':::: ENVIANDO CORREOS PROGRAMADOS ::::');
+            var response = await executeMassiveLambda(clientArray, tags, html, subject);
+            res.status(200).json({
+                statusCode: response,
+                message: 'email ok'
+            });
+    
+}); 
+}*/  
+    var executeMassiveLambda = async function(clientArray, tags, html, subject) {
+        //construye el HTML
+        
+        var jsonObject = await dataService.buildTemplateAndEmail(clientArray, tags, html, subject);
 
-
-    var executeMassiveLambda = async function(clientArray, html, subject) {
-        var jsonObject = await dataService.buildTemplateAndEmail(clientArray, html, subject);
-
-        console.log("executeMassiveLambda...:" + JSON.stringify(jsonObject));
+        //console.log("executeMassiveLambda...:" + JSON.stringify(jsonObject));
         return new Promise((resolve, reject) => {
             Request.post({
                 "headers": { "content-type": "application/json" },

@@ -14,6 +14,8 @@ const BUCKET_NAME = 'emailerfiles';
 const { config } = require('../config');
 const AWS_LAMBDA_EMAIL = config.lambdaEmail;
 
+var cron = require('../node_modules/node-cron');
+//var  cron  = require ( ' nodo-cron ' ) ;
 const s3 = new AWS.S3({
     accessKeyId: ID,
     secretAccessKey: SECRET
@@ -173,6 +175,9 @@ class DataService {
     }
 
     async sendEmail(jsonObject) {
+        
+
+
         Request.post({
             "headers": {
                 "content-type": "application/json",
@@ -212,8 +217,9 @@ class DataService {
         });
     }
 
+/*BUILD TEMPLATE ANTES DE MIS CAMBIOS 
 
-    async buildTemplateAndEmail(clientArray, html, subject) {
+   async buildTemplateAndEmail(clientArray, html, subject) {
         var o = {} // empty Object
         var key = 'arr';
         //var htmls='htmls';
@@ -224,6 +230,23 @@ class DataService {
         objResult.data = o;
         objResult.html = html;
         objResult.subject = subject;
+
+        return objResult || {};
+
+    }*/
+    async buildTemplateAndEmail(clientArray, tags, html, subject) {
+        var o = {} // empty Object
+        var key = 'arr';
+        //var htmls='htmls';
+        var objResult = new Object();
+        o[key] = clientArray;
+        //o[htmls]= html;
+
+        objResult.data = o;
+        objResult.html = html;
+        objResult.subject = subject;
+        objResult.tags = tags;
+        objResult.clientArray = clientArray;
 
         return objResult || {};
 

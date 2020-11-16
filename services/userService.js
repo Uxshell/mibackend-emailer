@@ -102,6 +102,8 @@ class UserService {
 
     //-----------LOGIN---------------
     async login({ user } = {}) {
+    
+
         var res = {};
         var query = { email: user.email };
         var userDB = await this.mongoDB.getOne(this.collection, query);
@@ -110,7 +112,7 @@ class UserService {
             return res = {
                 success: false,
                 err: {
-                    message: "Usuario o contraseña incorrectos"
+                    message: "user don't found"
                 }
             };
         } else {
@@ -121,7 +123,7 @@ class UserService {
                         message: "Usuario o contraseña incorrectos"
                     }
                 };
-            }
+            }else{
 
 
             const SEED_AUTENTICACION = config.seedAuth;
@@ -145,7 +147,7 @@ class UserService {
                 token,
             }
         }
-
+    }
     }
 
 

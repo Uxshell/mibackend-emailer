@@ -136,6 +136,7 @@ function routesUserApi(app) {
         try {
             const createdUserId = await userService.createUser({ user });
 
+
             res.status(201).json({
                 userId: createdUserId,
                 success: true,
@@ -173,8 +174,8 @@ function routesUserApi(app) {
         const { body: user } = req;
         try {
             const success = await userService.login({ user });
-
-            res.status(201).json({
+               
+            res.status(200).json({
                 response: success,
                 message: 'login success'
             });

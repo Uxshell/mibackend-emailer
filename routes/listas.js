@@ -9,7 +9,6 @@ const {
 
 
 const router = Router();
-
 router.get( '/getListas', getListas );
 router.delete('/borrarLista/:id', borrarLista);
 router.post( '/',   crearLista );

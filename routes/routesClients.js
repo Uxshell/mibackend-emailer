@@ -66,7 +66,7 @@ function routesClientApi(app) {
         //console.log(" init req.query: " + JSON.stringify(query));
         const filters = query.query;
         //console.log("  req.query: " + JSON.stringify(req.body.query));
-        console.log("req.query: " + JSON.stringify(filters));
+        //console.log("req.query: " + JSON.stringify(filters));
         try {
             const clients = await userService.setFilters(filters);
 

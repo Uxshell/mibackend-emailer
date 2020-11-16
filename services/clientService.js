@@ -31,7 +31,6 @@ class ClientService {
 
         if (Array.isArray(filtersDB) && filtersDB.length) {
             console.log("update because is not empty");
-
             var id = filtersDB[0]._id;
             var dataDB = filtersDB[0].filters;
             var data = filters.filters;
@@ -76,7 +75,7 @@ class ClientService {
         return newClient;
     }
 
-    async upsertClients({ client }, id) {
+   async upsertClients({ client }, id) {
         delete client["_id"];
         const newClient = await this.mongoDB.upsert(this.collection, client, id);
         return newClient;

@@ -3,7 +3,9 @@ const Lista = require('../models/listaModel');
 
 
 const getListas = async(req, res = response)=>{
-    const listas = await Lista.find();
+    //filtroUser = req.IDUSER;
+    //const listas = await Lista.find({IDUSER: filtroUser});
+    const listas = await Lista.find({IDUSER:'5f24405774598005a0e87b0e'});
     res.json({
         ok:true,
         listas
@@ -44,7 +46,8 @@ const crearLista = async(req, res = response) => {
 
         res.json({
             ok: true,
-            lista: listaDB
+            lista: listaDB,
+            msg: listaDB._id
         });
 
     } catch (error) {
