@@ -35,7 +35,13 @@ dbConnection();
 app.use(express.static('public'));
 app.use('/api/listas', require('./routes/listas'));
 app.use('/api/blacks', require('./routes/blacks'));
-
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+});
 routesApi(app);
 routesUserApi(app);
 routesClientApi(app);
