@@ -5,7 +5,8 @@ const Lista = require('../models/listaModel');
 const getListas = async(req, res = response)=>{
     //filtroUser = req.IDUSER;
     //const listas = await Lista.find({IDUSER: filtroUser});
-    const listas = await Lista.find({IDUSER:'5f24405774598005a0e87b0e'});
+    //const listas = await Lista.find({IDUSER:'5f24405774598005a0e87b0e'});
+    const listas = await Lista.find();
     res.json({
         ok:true,
         listas
