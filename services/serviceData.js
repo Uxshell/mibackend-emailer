@@ -7,17 +7,20 @@ const e = require('express');
 const readline = require('readline');
 var Request = require("request");
 
-const ID = 'AKIAWJ7YDV23ELLZBKPP';
-const SECRET = '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';
 const BUCKET_NAME = 'emailerfiles';
 
 const { config } = require('../config');
+
 const AWS_LAMBDA_EMAIL = config.lambdaEmail;
 
 var cron = require('../node_modules/node-cron');
 //var  cron  = require ( ' nodo-cron ' ) ;
+const ID = config.id;
+const SECRET = config.secret;
+
 const s3 = new AWS.S3({
     accessKeyId: ID,
+
     secretAccessKey: SECRET
 });
 
