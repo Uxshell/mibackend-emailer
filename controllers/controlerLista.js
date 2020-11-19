@@ -10,7 +10,7 @@ const getListas = async(req, res = response)=>{
     res.json({
         ok:true,
         listas
-    })
+    });
 }
 const borrarLista = async(req, res=response)=>{
     const id= req.params.id;
@@ -26,7 +26,8 @@ const borrarLista = async(req, res=response)=>{
         res.json({
             ok:true,
             msg: 'Lista eliminada'
-        });
+        })
+        this.cambiarBlacks(req);
     }catch (error){
         console.log(error);
         res.status(500).json({
@@ -35,7 +36,26 @@ const borrarLista = async(req, res=response)=>{
         })
     }
 }
+const cambiarBlacks = async(req, res = response) => {
+    const id= req.params.id;
+    const listas = await Lista.find(ID_LISTA= id);
+    console.log("CAMBIAR"+listas.length);
+    res.json({
+        ok:true,
+        listas
+    });
+}
+const buscarLista = async(req, res = response) => {
+    const select= req.params.selecccionada;
+    const lista = await Lista.find(nombre=select);
+    console.log("LISTA"+lista);
+    res.json({
+        ok:true,
+        listas
+    });
+}
 const crearLista = async(req, res = response) => {
+
 
     //const uid = req.uid;
     const lista = new Lista(req.body);
@@ -66,5 +86,6 @@ const crearLista = async(req, res = response) => {
 module.exports={
     getListas,
     borrarLista,
-    crearLista
+    crearLista,
+    buscarLista
 }

@@ -12,12 +12,10 @@ const getBlacks = async(req, res = response)=>{
 const crearBlack = async(req, res = response) => {
 
     //const uid = req.uid;
-    const lista = new Black({ 
-      //  usuario: uid,
-        ...req.body 
-    });
+  
+    const lista = new Black(req.body);
 
-    try {
+   try {
         
         const listaDB = await lista.save();
         

@@ -136,6 +136,7 @@ class UserService {
                 expiresIn: EXPIRATION
             })
             var userResponse = {
+                
                 userId: userDB._id,
                 name: userDB.name,
                 email: user.email,
