@@ -27,7 +27,7 @@ const borrarLista = async(req, res=response)=>{
             ok:true,
             msg: 'Lista eliminada'
         })
-        this.cambiarBlacks(req);
+       // this.cambiarBlacks(req);
     }catch (error){
         console.log(error);
         res.status(500).json({

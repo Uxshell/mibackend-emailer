@@ -102,10 +102,11 @@ function routesApi(app) {
         var html = req.body.html;
         var subject = req.body.subject;
         var tags = req.body.tags;
+        var campania ="hola cam";
         //var date = req.body.fecha;
         var bandera = req.body.scheduleDef;
         
-        var response = await executeMassiveLambda(clientArray, tags, html, subject);
+        var response = await executeMassiveLambda(clientArray, tags, html, subject, campania);
         res.status(200).json({
             statusCode: response,
             message: 'email ok'
@@ -254,6 +255,7 @@ var executeLambdaOneByOne = async function(cliente, htmlBody, subject){
                 "headers": { "content-type": "application/json" },
                 "url": AWS_LAMBDA_MASSIVE_EMAIL,
                 "body": JSON.stringify(jsonObject)
+                
             }, (error, response, body) => {
                 if (error) {
                     console.error(error);

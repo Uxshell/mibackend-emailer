@@ -250,6 +250,7 @@ class DataService {
         objResult.subject = subject;
         objResult.tags = tags;
         objResult.clientArray = clientArray;
+        objResult.campaign = 'Hola campaign';
 
         return objResult || {};
 
