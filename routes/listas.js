@@ -10,7 +10,7 @@ const {
 
 
 const router = Router();
-router.get( '/getListas', getListas );
+router.post( '/getListas', getListas );
 router.get( '/buscarLista', buscarLista );
 router.delete('/borrarLista/:id', borrarLista);
 router.post( '/',   crearLista );

@@ -55,6 +55,7 @@ class ListaService {
     async getUserByEmail({ user }) {
         var query = { email: user.email };
         var userDB = await this.mongoDB.getOne(this.collection, query);
+        
         if (userDB === null) {
             console.log("//user don't found");
             return {

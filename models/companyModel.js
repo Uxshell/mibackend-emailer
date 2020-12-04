@@ -1,9 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const ListaSchema = Schema({
-    userId: {
-        type: String,
-    },
+const CompanySchema = Schema({
     nombre: {
         type: String,
         required: true
@@ -14,14 +11,14 @@ const ListaSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Usuario'
     }*/
-}, {  collection: 'lists' });
+}, {  collection: 'companys' });
 
 
-ListaSchema.method('toJSON', function() {
+CompanySchema.method('toJSON', function() {
     const { __v, ...object } = this.toObject();
     return object;
 })
 
 
 
-module.exports = model( 'Lista', ListaSchema );
+module.exports = model( 'Company', CompanySchema );

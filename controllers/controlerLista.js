@@ -2,18 +2,23 @@ const {response}=  require('express');
 const Lista = require('../models/listaModel');
 
 
+
 const getListas = async(req, res = response)=>{
-    //filtroUser = req.IDUSER;
-    //const listas = await Lista.find({IDUSER: filtroUser});
-    //const listas = await Lista.find({IDUSER:'5f24405774598005a0e87b0e'});
-    const listas = await Lista.find();
+    
+    let user = req.body.userId;
+  //  var userID = user.replace(/['"]+/g, '');
+    //console.log('valor en el back de  req.userId ' +user);
+    
+    const listas = await Lista.find({userId:user});
     res.json({
         ok:true,
         listas
     });
+    
 }
 const borrarLista = async(req, res=response)=>{
     const id= req.params.id;
+    console.log("probando id lista"+id);
     try{
         const lista = await Lista.findById(id);
         if(!lista){
@@ -46,8 +51,11 @@ const cambiarBlacks = async(req, res = response) => {
     });
 }
 const buscarLista = async(req, res = response) => {
+
     const select= req.params.selecccionada;
+    
     const lista = await Lista.find(nombre=select);
+
     console.log("LISTA"+lista);
     res.json({
         ok:true,

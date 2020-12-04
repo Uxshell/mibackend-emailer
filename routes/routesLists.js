@@ -4,6 +4,7 @@ const protectRoutes = express.Router();
 const jwt = require('jsonwebtoken');
 const { config } = require('../config');
 
+
 const SEED_AUTENTICACION = config.seedAuth;
 
 function routesListApi(app) {

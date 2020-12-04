@@ -35,6 +35,8 @@ dbConnection();
 app.use(express.static('public'));
 app.use('/api/listas', require('./routes/listas'));
 app.use('/api/blacks', require('./routes/blacks'));
+app.use('/api/companys', require('./routes/companys'));
+
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');

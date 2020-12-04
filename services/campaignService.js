@@ -20,6 +20,8 @@ class CampaignService {
         const newCampaign = await this.mongoDB.create(this.collection, campaign);
         return newCampaign;
     }
+    
+  
 
 
 }
