@@ -11,7 +11,7 @@ const {
 
 const router = Router();
 router.post( '/getListas', getListas );
-router.get( '/buscarLista', buscarLista );
+router.post( '/buscarLista', buscarLista );
 router.delete('/borrarLista/:id', borrarLista);
 router.post( '/',   crearLista );
 

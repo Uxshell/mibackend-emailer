@@ -5,6 +5,7 @@ const CompanySchema = Schema({
         type: String,
         required: true
     },
+   
     /*
     usuario: {
         required: true,

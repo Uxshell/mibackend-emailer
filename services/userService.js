@@ -140,7 +140,8 @@ class UserService {
                 userId: userDB._id,
                 name: userDB.name,
                 email: user.email,
-                rol: userDB.rol
+                rol: userDB.rol,
+                company: userDB.company
             }
             return {
                 success: true,

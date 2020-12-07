@@ -52,14 +52,16 @@ const cambiarBlacks = async(req, res = response) => {
 }
 const buscarLista = async(req, res = response) => {
 
-    const select= req.params.selecccionada;
-    
-    const lista = await Lista.find(nombre=select);
-
-    console.log("LISTA"+lista);
+    const select= req.params.seleccionada;
+    let s = req.body.seleccionada;
+   
+    console.log('valor de s'+s);
+    const lista = await Lista.find({nombre:s});
+    const id = lista._id;
+    console.log("LISTA"+ lista +"ID: "+id);
     res.json({
         ok:true,
-        listas
+        lista
     });
 }
 const crearLista = async(req, res = response) => {

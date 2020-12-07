@@ -16,6 +16,7 @@ class ClientService {
         const clients = await this.mongoDB.getAll(this.collection, query);
         return clients;
     }
+    
     async getFilters(query) {
         //var query = {};
         console.log("query: " + JSON.stringify(query))

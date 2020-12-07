@@ -303,6 +303,7 @@ var executeLambdaOneByOne = async function(cliente, htmlBody, subject){
             Request.post({
                 "headers": { "content-type": "application/json" },
                 "url": AWS_LAMBDA_ALL_STATISTICS,
+                
                 "body": JSON.stringify(request.body),
                 "isBase64Encoded": false
             }, (error, response, body) => {

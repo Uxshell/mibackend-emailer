@@ -5,6 +5,10 @@ const UserSchema = Schema({
         type: String,
         required: true
     },
+    company: {
+        type: String,
+      
+    },
     email:{
         type: String,
         required: true,
