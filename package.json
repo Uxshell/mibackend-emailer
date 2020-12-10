@@ -33,7 +33,7 @@
     "jsonwebtoken": "^8.5.1",
     "line-reader": "^0.4.0",
     "mailcomposer": "^4.0.2",
-    "mongodb": "^3.5.9",
+    "mongodb": "^3.6.3",
     "mongoose": "^5.9.20",
     "morgan": "^1.10.0",
     "node-cron": "^2.0.3",

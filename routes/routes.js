@@ -102,11 +102,12 @@ function routesApi(app) {
         var html = req.body.html;
         var subject = req.body.subject;
         var tags = req.body.tags;
-        var campania ="hola cam";
+        var campaign= req.body.campaign;
+        console.log('valo de capaign en el back'+campaign);
         //var date = req.body.fecha;
         var bandera = req.body.scheduleDef;
         
-        var response = await executeMassiveLambda(clientArray, tags, html, subject, campania);
+        var response = await executeMassiveLambda(clientArray, tags, html, subject, campaign);
         res.status(200).json({
             statusCode: response,
             message: 'email ok'
@@ -244,10 +245,11 @@ var executeLambdaOneByOne = async function(cliente, htmlBody, subject){
     
 }); 
 }*/  
-    var executeMassiveLambda = async function(clientArray, tags, html, subject) {
+    var executeMassiveLambda = async function(clientArray, tags, html, subject, campaign) {
         //construye el HTML
         
-        var jsonObject = await dataService.buildTemplateAndEmail(clientArray, tags, html, subject);
+
+        var jsonObject = await dataService.buildTemplateAndEmail(clientArray, tags, html, subject, campaign);
 
         //console.log("executeMassiveLambda...:" + JSON.stringify(jsonObject));
         return new Promise((resolve, reject) => {

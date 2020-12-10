@@ -1,5 +1,6 @@
 const express = require('express');
 const CampaignService = require('../services/campaignService');
+const sendsEmailsService = require('../services/sendsEmailsService');
 
 
 function routesCampaignApi(app) {
@@ -7,7 +8,7 @@ function routesCampaignApi(app) {
     app.use('/campaigns', router);
 
     const campaignService = new CampaignService();
-
+    const sendsService = new sendsEmailsService();
     router.get('/getCampaigns', async function(req, res, next) {
         //console.log(" req.query: " + JSON.stringify(req.body.query));
         try {
@@ -51,8 +52,29 @@ function routesCampaignApi(app) {
         }
     });
 
+    router.post('/updateCampaign', async function(req, res, next) {
+        const { body: campaign } = req;
+        try {
+            const campaignUp = await campaignService.updateCampaign({ campaign });
+
+            res.status(201).json({
+                campaignUp: campaignUp,
+                success: true,
+                message: 'campaign update'
+            });
+        } catch (err) {
+            res.status(501).json({
+                success: false,
+                message: 'error'
+            });
+            next(err);
+        }
+    });
 
 
+
+
+ 
 
 
 }

@@ -3,6 +3,7 @@ var bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { config } = require('../config');
 
+
 class CampaignService {
     constructor() {
         this.collection = 'campaigns';
@@ -20,6 +21,12 @@ class CampaignService {
         const newCampaign = await this.mongoDB.create(this.collection, campaign);
         return newCampaign;
     }
+    async updateCampaign({campaign}){
+        let IDC= campaign.IDC;
+        const updaCampaign = await this.mongoDB.update(this.collection, IDC, campaign);
+        return updaCampaign;
+    }
+
     
   
 

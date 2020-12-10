@@ -1,5 +1,9 @@
 const {response}=  require('express');
 const Company = require('../models/companyModel');
+const  emailsSends= require('../models/sendsEmailsModel');
+const  emailsDeliverys= require('../models/deliverysEmailsModel');
+const  emailsRejects= require('../models/rejectsEmailsModel');
+const  emailsOpens= require('../models/opensEmailsModel');
 
 
 const getCompanys = async(req, res = response)=>{
@@ -12,6 +16,47 @@ const getCompanys = async(req, res = response)=>{
         cs
     });
 }
+const getEmailsSends =async(req, res = response)=>{
+   let IDC= req.body.IDCampaign;
+    const eS = await emailsSends.find({IDCampaign:IDC}).count();
+    res.json({
+        ok:true,
+        eS
+    });
+    console.log('getEmailsSends'+eS);
+}
+
+const getEmailsDeliverys =async(req, res = response)=>{
+    let IDC= req.body.IDCampaign;
+     const eD = await emailsDeliverys.find({IDCampaign:IDC}).count();
+     res.json({
+         ok:true,
+         eD
+     });
+     console.log('getEmails D'+eD);
+ }
+
+ const getEmailsOpens =async(req, res = response)=>{
+    let IDC= req.body.IDCampaign;
+     const eO = await emailsOpens.find({IDCampaign:IDC}).count();
+     res.json({
+         ok:true,
+         eO
+     });
+     console.log('getEmails Opens'+eO);
+ }
+
+
+ const getEmailsRejects =async(req, res = response)=>{
+    let IDC= req.body.IDCampaign;
+     const eR = await emailsRejects.find({IDCampaign:IDC}).count();
+     res.json({
+         ok:true,
+         eR
+     });
+     //console.log('getEmails D'+eD);
+ }
+
 const borrarCompany = async(req, res=response)=>{
     const id= req.params.id;
     try{
@@ -70,6 +115,9 @@ const crearCompany = async(req, res = response) => {
 module.exports={
     getCompanys,
     borrarCompany,
-    
-    crearCompany
+    getEmailsSends,
+    getEmailsDeliverys,
+    getEmailsRejects,
+    crearCompany,
+    getEmailsOpens
 }

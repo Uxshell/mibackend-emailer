@@ -237,7 +237,7 @@ class DataService {
         return objResult || {};
 
     }*/
-    async buildTemplateAndEmail(clientArray, tags, html, subject) {
+    async buildTemplateAndEmail(clientArray, tags, html, subject, campaign) {
         var o = {} // empty Object
         var key = 'arr';
         //var htmls='htmls';
@@ -250,7 +250,7 @@ class DataService {
         objResult.subject = subject;
         objResult.tags = tags;
         objResult.clientArray = clientArray;
-        objResult.campaign = 'Hola campaign';
+        objResult.campaign = campaign
 
         return objResult || {};
 
