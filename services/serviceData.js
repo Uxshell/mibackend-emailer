@@ -237,7 +237,7 @@ class DataService {
         return objResult || {};
 
     }*/
-    async buildTemplateAndEmail(clientArray, tags, html, subject, campaign) {
+    async buildTemplateAndEmail(clientArray, tags, html, subject, campaign, remitente) {
         var o = {} // empty Object
         var key = 'arr';
         //var htmls='htmls';
