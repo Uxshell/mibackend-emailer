@@ -33,6 +33,7 @@ app.use(fileupload());
 
 dbConnection();
 app.use(express.static('public'));
+
 app.use('/api/listas', require('./routes/listas'));
 app.use('/api/blacks', require('./routes/blacks'));
 app.use('/api/companys', require('./routes/companys'));

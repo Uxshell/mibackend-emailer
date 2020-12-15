@@ -74,12 +74,13 @@ function routesApi(app) {
     var subject = req.body.subject;
     var tags = req.body.tags;
     var date = req.body.fecha;
+    var campaign= req.body.campaign;
     var bandera = req.body.scheduleDef;
     
     schedule.scheduleJob(date, async function(){
         try{
             console.log("Ejecutando executeMassiveLambda desde schedule");
-            var response = await executeMassiveLambda(clientArray, tags, html, subject);
+            var response = await executeMassiveLambda(clientArray, tags, html, subject, campaign);
             //console.log(response);
             res.status(200).json({
                 response: response,

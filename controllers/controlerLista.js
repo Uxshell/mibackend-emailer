@@ -43,7 +43,7 @@ const borrarLista = async(req, res=response)=>{
 }
 const cambiarBlacks = async(req, res = response) => {
     const id= req.params.id;
-    const listas = await Lista.find(ID_LISTA= id);
+    const listas = await Lista.find(ID_LISTA= id).lean();
     console.log("CAMBIAR"+listas.length);
     res.json({
         ok:true,
