@@ -8,6 +8,9 @@ const ListaSchema = Schema({
         type: String,
         required: true
     },
+    fechaCreacion:{
+        type: String,
+    }
     /*
     usuario: {
         required: true,
