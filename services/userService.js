@@ -130,6 +130,7 @@ class UserService {
             const EXPIRATION = config.expiration;
 
 
+            
             let token = jwt.sign({
                 usuario: userDB,
             }, SEED_AUTENTICACION, {
