@@ -57,15 +57,15 @@ const buscarLista = async(req, res = response) => {
    
     console.log('valor de s'+s);
     const listaDB = await Lista.findOne({nombre:s});
-     
+     var IDL= listaDB._id;
     var listaResponse = {
                 
         Id: listaDB._id
     }
-    console.log("LISTA"+ listaDB );
+    console.log("LISTA"+ listaResponse );
     res.json({
         ok:true,
-        idlista:listaResponse
+        idlista:IDL
     });
 }
 const crearLista = async(req, res = response) => {
