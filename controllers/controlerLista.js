@@ -56,7 +56,7 @@ const buscarLista = async(req, res = response) => {
     let s = req.body.seleccionada;
    
     console.log('valor de s'+s);
-    const listaDB = await Lista.findOne({nombre:s})[0]._id;
+    const listaDB = await Lista.findOne({nombre:s});
      
     var listaResponse = {
                 
