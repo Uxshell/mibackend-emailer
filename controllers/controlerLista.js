@@ -56,11 +56,11 @@ const buscarLista = async(req, res = response) => {
     let s = req.body.seleccionada;
    
     console.log('valor de s'+s);
-    const listaDB = await Lista.find({nombre:s});
-  
+    const listaDB = await Lista.findOne({nombre:s})[0]._id;
+     
     var listaResponse = {
                 
-        Id: listaDB._id
+        Id: listaDB
     }
     console.log("LISTA"+ listaDB );
     res.json({
