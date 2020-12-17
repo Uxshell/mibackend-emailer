@@ -60,7 +60,7 @@ const buscarLista = async(req, res = response) => {
      
     var listaResponse = {
                 
-        Id: listaDB
+        Id: listaDB._id
     }
     console.log("LISTA"+ listaDB );
     res.json({
