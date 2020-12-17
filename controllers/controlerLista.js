@@ -55,7 +55,7 @@ const buscarLista = async(req, res = response) => {
     const select= req.params.seleccionada;
     let s = req.body.seleccionada;
    
-    console.log('valor de s'+s);
+    console.log('valor de s'+select);
     const lista = await Lista.find({nombre:select});
     const id = lista._id;
     console.log("LISTA"+ lista +"ID: "+id);
